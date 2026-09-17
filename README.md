@@ -8,21 +8,21 @@ The whole estimate lives in the query string, so a link is the estimate. Send so
 
 ## URL parameters
 
-Stack them freely, for example `?internal=1&edit=1&discount=1`.
-
 | Parameter | Effect |
 | --- | --- |
-| `a` | Account name |
-| `d` | Date stamp, `YYYY-MM-DD` |
-| `discount=1` | Shows the volume tier ladder. Client-facing, so the Share button keeps it |
+| `e` | The whole estimate, packed as `CSE1.<base64url>`. Account, namespace, term, date, every line item with its unit price, the discount flag, and hours overrides on an internal link only |
 | `edit=1` | Makes unit price and hours editable inline. Implies `internal=1` |
-| `h` | Hours overrides, `sku:hours` comma separated. Only ever written to an internal link |
 | `internal=1` | Reveals hours, the hourly rate, the capacity readout and the account list |
-| `l` | Line items, `sku:quantity:unitPrice` comma separated |
-| `ns` | Namespace |
-| `t` | Contract term in months. `1` means one-time |
 
-SKU keys are `e2ebc`, `e2ecc`, `rev` and `touch`.
+A link looks like this:
+
+```
+https://sammy-bluecore.github.io/cs-rate-calculator/?e=CSE1.eyJ0IjoxMiwiZCI6...
+```
+
+SKU keys inside the code are `e2ebc`, `e2ecc`, `rev` and `touch`.
+
+Links generated before 17 September 2026 spelled the state out as `a`, `ns`, `t`, `l`, `h` and `d`. Those still load, through a fallback in `readUrl()` that can be deleted once none are circulating.
 
 ## Internal view
 
@@ -35,10 +35,12 @@ While internal view is on, a "lock" pill sits in the header. One click hides eve
 
 ## Sharing
 
-- **Copy share link** produces a client-safe URL: no `internal`, no `edit`, no `h`. The discount flag stays, because the discount is part of the client story.
+- **Share pricing** produces a client-safe URL: no `internal`, no `edit`, and no hours inside the code. The discount flag stays, because the discount is part of the client story.
 - **Copy internal link**, visible only in internal view, keeps every flag and the hours overrides, for handing to a CSM.
 
-Unit price always rides in the URL, so a link you sent last quarter keeps last quarter's prices even after the rates in this file change.
+Header controls stack top to bottom: internal view pill, copy internal link, edit rates, volume pricing, share pricing.
+
+Unit price always rides in the code, so a link you sent last quarter keeps last quarter's prices even after the rates in this file change.
 
 ## Changing the numbers
 
@@ -61,7 +63,7 @@ After editing, run the tests, then commit and push to `main`. GitHub Pages redep
 node test/e2e.js
 ```
 
-101 assertions in jsdom covering the money path, URL round trips, the client-safe boundary, the discount ladder boundaries, and the cards. The suite looks for jsdom in `node_modules/`, then falls back to the copy under `Campaign-Services-claude`.
+112 assertions in jsdom covering the money path, URL round trips, the client-safe boundary, the discount ladder boundaries, and the cards. The suite looks for jsdom in `node_modules/`, then falls back to the copy under `Campaign-Services-claude`.
 
 The page also carries a self-check callable from the browser console:
 

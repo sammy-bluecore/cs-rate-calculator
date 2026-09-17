@@ -87,7 +87,9 @@ function run() {
   ok(/viewport-fit=cover/.test(HTML), "viewport with safe-area support");
   ok(/<meta name="robots" content="noindex, nofollow">/.test(HTML), "noindex meta");
   ok(/<\/body>\s*<\/html>\s*$/.test(HTML), "closes body and html");
-  ok(!/CSE1|encodeState|applyCode|SHARE_BASE/.test(HTML), "estimate-code machinery is gone");
+  ok(!/SHARE_BASE/.test(HTML), "no hardcoded artifact URL");
+  ok(/max-width:1280px/.test(HTML), "canvas is 1280px wide");
+  ok(/--body:"Inter"/.test(HTML) && !/Newsreader/.test(HTML), "body font is Inter, Newsreader gone");
 
   const A = open();
   const { win, doc, $ } = A;
@@ -202,14 +204,21 @@ function run() {
   const internalQuery = win.eval("buildQuery(true)");
   const clientQuery   = win.eval("buildQuery(false)");
   const beforeContract = $("v-contract").textContent;
+  const decode = q => JSON.parse(win.eval(
+    'unb64u(new URLSearchParams(' + JSON.stringify(q) + ').get("e").slice(5))'));
 
-  ok(/a=Alo(\+|%20)LLC/.test(internalQuery), "account in the URL", internalQuery);
-  ok(/l=e2ecc%3A10%3A585/.test(internalQuery), "line item in the URL", internalQuery);
-  ok(/(^|&)h=/.test(internalQuery), "internal URL carries the hours override");
+  ok(/[?&]?e=CSE1\./.test(internalQuery), "estimate rides in one e= parameter", internalQuery);
+  ok(new URLSearchParams(internalQuery).get("e").length < 220, "the code stays short", internalQuery.length + " chars");
+  ok(!/[?&]l=|[?&]a=|[?&]t=/.test(internalQuery), "no spelled-out line items in the URL");
+
+  const ib = decode(internalQuery), cb = decode(clientQuery);
+  ok(ib.a === "Alo LLC", "account in the code", ib.a);
+  ok(JSON.stringify(ib.l) === JSON.stringify([["e2ecc", 10, 585]]), "line item in the code", JSON.stringify(ib.l));
+  ok(Array.isArray(ib.h) && ib.h.length === 1, "internal code carries the hours override");
   ok(/internal=1/.test(internalQuery) && /edit=1/.test(internalQuery), "internal URL carries the flags");
-  ok(!/(^|&)h=/.test(clientQuery), "client URL omits hours", clientQuery);
+  ok(cb.h === undefined, "client code omits hours", JSON.stringify(cb.h));
   ok(!/internal=/.test(clientQuery) && !/edit=/.test(clientQuery), "client URL omits internal and edit");
-  ok(/discount=1/.test(clientQuery), "client URL keeps the discount flag");
+  ok(cb.c === 1, "client code keeps the discount flag");
 
   console.log("\n13. Round trip into a fresh page");
   {
@@ -227,10 +236,15 @@ function run() {
 
   console.log("\n14. Price freeze");
   {
-    const C = open("?t=1&l=e2ecc:10:585");
+    const code = p => "?e=CSE1." + Buffer.from(JSON.stringify(p)).toString("base64")
+      .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const C = open(code({ t: 1, l: [["e2ecc", 10, 585]] }));
     ok(num(C.$("v-contract").textContent) === 5850, "shared price wins over the default", C.$("v-contract").textContent);
-    const D = open("?t=1&l=e2ecc:10:999");
+    const D = open(code({ t: 1, l: [["e2ecc", 10, 999]] }));
     ok(num(D.$("v-contract").textContent) === 9990, "an older frozen price is honoured", D.$("v-contract").textContent);
+    // links made before the code format still resolve
+    const L = open("?t=1&l=e2ecc:10:585");
+    ok(num(L.$("v-contract").textContent) === 5850, "legacy spelled-out link still works", L.$("v-contract").textContent);
   }
 
   console.log("\n15. Hidden URL parameters");
@@ -244,16 +258,18 @@ function run() {
     ok(F.doc.body.classList.contains("internal"), "?edit=1 implies internal");
     ok(F.$("price-0") && F.$("price-0").type === "number", "?edit=1 makes prices editable");
 
-    const G = open("?discount=1");
-    ok(!G.$("disc-panel").hidden, "?discount=1 shows the ladder");
-    ok(!G.doc.body.classList.contains("internal"), "?discount=1 stays client-safe");
+    const G = open("?" + clientQuery);
+    ok(!G.$("disc-panel").hidden, "the code turns the ladder back on");
+    ok(!G.doc.body.classList.contains("internal"), "a client code stays client-safe");
 
     const H = open("", { "cs-rate-internal": "1" });
     ok(H.doc.body.classList.contains("internal"), "a stored unlock needs no parameter");
 
-    const I = open("?l=nonsense:x:y&t=banana");
-    ok(I.$("rows").children.length === 1, "a junk URL still renders", I.$("rows").children.length);
-    ok(I.$("term").value === "12", "junk term falls back to 12");
+    const I = open("?e=CSE1.not-real-base64!!");
+    ok(I.$("rows").children.length === 1, "a junk code still renders", I.$("rows").children.length);
+    ok(I.$("term").value === "12", "junk code falls back to a 12 month default");
+    const J = open("?e=" + Buffer.from('{"l":[["nope",1,1]]}').toString("base64url"));
+    ok(J.$("rows").children.length === 1, "an unknown SKU is dropped, not rendered");
   }
 
   console.log("\n16. Lock again before screen sharing");
@@ -263,6 +279,13 @@ function run() {
   ok(!/\$65/.test(visibleText(doc)), "hourly rate gone from the rendered DOM");
   ok(!/internal=/.test(win.eval("buildQuery(true)")), "locking drops the flag from the URL");
 
+  console.log("\n16b. Header layout");
+  const order = [...doc.querySelectorAll(".head-actions > *")].map(n => n.id || n.className).join("|");
+  ok(order === "flagbar|share-internal|switches|share",
+     "header order: pills, internal link, switches, share", order);
+  ok(/Share pricing/.test($("share-label").textContent), "share button renamed", $("share-label").textContent);
+  ok(!/🔗/.test($("share").textContent), "only one link glyph on the share button");
+
   console.log("\n17. Cards");
   {
     const cards = doc.querySelectorAll(".card");
@@ -270,6 +293,7 @@ function run() {
     ok(cards[0].querySelectorAll(".face").length === 2, "front and back faces");
     click(win, cards[0].querySelector(".flipctl"));
     ok(cards[0].classList.contains("flipped"), "card flips");
+    ok(cards[0].classList.contains("turning"), "flip adds the blur class");
     ok(cards[0].querySelectorAll(".face")[1].textContent.includes("Site campaign is 2 builds"), "rules on the back");
     ok(/Never book a subsequent touch as a Revision/.test(cards[1].querySelectorAll(".face")[1].textContent),
        "SKU misuse warning present");

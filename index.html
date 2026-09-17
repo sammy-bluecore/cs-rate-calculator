@@ -8,7 +8,7 @@
 <title>Campaign Services Rate Calculator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root{
   --paper:#F3F5FA;
@@ -37,7 +37,7 @@
   --r-card:16px; --r-panel:14px; --r-ctl:10px;
 
   --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Inter","Helvetica Neue",Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 
   color-scheme:light dark;
@@ -102,13 +102,13 @@ body{
   margin:0;
   background:var(--paper);
   color:var(--ink);
-  font-family:var(--serif);
-  font-size:15.5px;
+  font-family:var(--body);
+  font-size:15px;
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
 }
 .wrap{
-  max-width:1040px;
+  max-width:1280px;
   margin:0 auto;
   padding-inline:16px;
   padding-block:30px 46px;
@@ -141,8 +141,11 @@ p{margin:0}
 .head h1{margin:6px 0 8px}
 .head .lead{color:var(--ink-2);max-width:56ch;font-size:15px}
 .head-rule{height:3px;background:var(--grad-rule);margin:20px -24px 0;border-radius:3px 3px 0 0}
-.head-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.head-actions{display:flex;flex-direction:column;gap:10px;align-items:stretch;min-width:212px}
+.head-actions > *{width:100%}
+.head-actions .btn{justify-content:center}
 .flagbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.flagbar:empty{display:none}
 #unlock{cursor:default;user-select:none;-webkit-user-select:none;background:none;border:none;padding:0;text-align:left;font:inherit}
 #unlock.eyebrow{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 
@@ -194,7 +197,8 @@ button.pill{cursor:pointer}
 .pill.on-green{background:var(--green-bg);color:var(--green);border-color:transparent}
 .pill.on-orange{background:var(--orange-bg);color:var(--orange);border-color:transparent}
 
-.switches{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:flex-end}
+.switches{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.switches[hidden]{display:none}
 .switch{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer}
 .switch input{width:auto;min-width:0;padding:0;box-shadow:none;accent-color:var(--blue);inline-size:15px;block-size:15px}
 
@@ -329,21 +333,32 @@ button.pill{cursor:pointer}
 }
 
 /* ---------- cards ---------- */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
 .card{
   perspective:1400px;
   transition:transform .2s ease;
+  height:100%;
 }
 .card:hover{transform:translateY(-6px) scale(1.02)}
 .card-inner{
   display:grid;
+  height:100%;
   transform-style:preserve-3d;
-  transition:transform .55s cubic-bezier(.22,.7,.3,1), box-shadow .2s ease;
+  transition:transform .8s cubic-bezier(.36,.06,.16,1), box-shadow .2s ease;
   border-radius:var(--r-card);
   box-shadow:var(--sh-1);
 }
 .card:hover .card-inner{box-shadow:var(--sh-2)}
 .card.flipped .card-inner{transform:rotateY(180deg)}
+/* Motion blur through the turn, so the halfway point reads as movement
+   rather than a hard edge. Cleared on animationend. */
+.card.turning .card-inner{animation:card-turn .8s cubic-bezier(.36,.06,.16,1)}
+@keyframes card-turn{
+  0%{filter:blur(0)}
+  45%{filter:blur(4px) saturate(.85)}
+  55%{filter:blur(4px) saturate(.85)}
+  100%{filter:blur(0)}
+}
 .face{
   grid-area:1/1;
   backface-visibility:hidden;
@@ -354,6 +369,7 @@ button.pill{cursor:pointer}
   border-radius:var(--r-card);
   padding:18px 18px 16px;
   display:flex;flex-direction:column;gap:10px;
+  height:100%;
 }
 .face.back{transform:rotateY(180deg);background:var(--accent-bg,var(--blue-bg))}
 .card-top{display:flex;align-items:center;gap:10px}
@@ -434,6 +450,7 @@ button.pill{cursor:pointer}
   *{transition:none !important;animation:none !important}
   .card:hover{transform:none}
   .card.flipped .card-inner{transform:none}
+  .card.turning .card-inner{animation:none}
   .face.back{transform:none}
 }
 </style>
@@ -447,19 +464,19 @@ button.pill{cursor:pointer}
       <div>
         <button id="unlock" class="eyebrow" type="button" title="Option-click, or Alt+Shift+I, for internal view">Bluecore Campaign Services</button>
         <h1>Rate Calculator</h1>
-        <p class="lead">Build a campaign services estimate, then share the link. Everything you change is stored in the address, so whoever opens it sees exactly what you built and can adjust it themselves.</p>
+        <p class="lead">Build a campaign services estimate, then share the link. The whole estimate travels in the address, so whoever opens it sees exactly what you built and can adjust it themselves.</p>
       </div>
       <div class="head-actions">
-        <button class="btn btn-primary" id="share" type="button">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
-          <span id="share-label">Copy share link</span> <span aria-hidden="true">🔗</span>
-        </button>
-        <button class="btn btn-sm" id="share-internal" type="button" hidden>Copy internal link</button>
         <div class="flagbar" id="flagbar"></div>
+        <button class="btn btn-sm" id="share-internal" type="button" hidden>Copy internal link</button>
         <div class="switches" id="switches" hidden>
           <label class="switch"><input type="checkbox" id="sw-edit"> Edit rates</label>
           <label class="switch"><input type="checkbox" id="sw-disc"> Volume pricing</label>
         </div>
+        <button class="btn btn-primary" id="share" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          <span id="share-label">Share pricing</span>
+        </button>
       </div>
     </div>
     <div class="head-rule"></div>
@@ -755,22 +772,41 @@ function hoursFor(sku) { return hoursOverride[sku] != null ? hoursOverride[sku] 
 function priceFor(sku) { return priceOverride[sku] != null ? priceOverride[sku] : SKUS[sku].price; }
 
 /* ---- URL state ----
-   The whole estimate lives in the query string, so a link IS the estimate. */
+   The whole estimate is packed into one `e=CSE1.<base64url>` parameter, so a
+   link stays short and readable instead of spelling out every line item. */
+
+const CODE_PREFIX = "CSE1.";
+
+function b64u(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function unb64u(str) {
+  const bin = atob(str.replace(/-/g, "+").replace(/_/g, "/"));
+  return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+}
+
+// includeHours is false for anything a client will hold.
+function encodeState(includeHours) {
+  const o = { t: state.term, d: state.date, l: state.rows.map(r => [r.sku, r.qty, r.price]) };
+  // Empty fields are left out so the code stays short.
+  if (state.account) o.a = state.account;
+  if (state.ns) o.n = state.ns;
+  if (MODE.discount) o.c = 1;
+  if (includeHours) {
+    const h = Object.keys(hoursOverride).filter(k => hoursOverride[k] !== SKUS[k].hours);
+    if (h.length) o.h = h.map(k => [k, hoursOverride[k]]);
+  }
+  return CODE_PREFIX + b64u(JSON.stringify(o));
+}
 
 function buildQuery(includeInternal) {
   const q = new URLSearchParams();
-  if (state.account) q.set("a", state.account);
-  if (state.ns) q.set("ns", state.ns);
-  q.set("t", String(state.term));
-  q.set("l", state.rows.map(r => r.sku + ":" + r.qty + ":" + r.price).join(","));
-  q.set("d", state.date);
-  if (MODE.discount) q.set("discount", "1");
+  q.set("e", encodeState(includeInternal));
+  // Mode flags stay readable so they can be typed by hand.
   if (includeInternal) {
-    // Hours and the mode flags only ever ride in an internal link.
-    const h = Object.keys(hoursOverride)
-      .filter(k => hoursOverride[k] !== SKUS[k].hours)
-      .map(k => k + ":" + hoursOverride[k]);
-    if (h.length) q.set("h", h.join(","));
     if (MODE.internal) q.set("internal", "1");
     if (MODE.edit) q.set("edit", "1");
   }
@@ -790,19 +826,55 @@ function syncUrl() {
   }, 250);
 }
 
+// Applies an estimate code to state. Returns false if it was not understood,
+// leaving state untouched.
+function applyCode(raw) {
+  const m = String(raw || "").match(/CSE1\.[A-Za-z0-9_-]+/);
+  if (!m) return false;
+  let o;
+  try { o = JSON.parse(unb64u(m[0].slice(CODE_PREFIX.length))); }
+  catch (e) { return false; }
+  if (!o || !Array.isArray(o.l)) return false;
+
+  state.account = typeof o.a === "string" ? o.a : "";
+  state.ns = typeof o.n === "string" ? o.n : "";
+  state.term = Number(o.t) || 12;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(o.d || "")) state.date = o.d;
+
+  for (const k of Object.keys(hoursOverride)) delete hoursOverride[k];
+  (Array.isArray(o.h) ? o.h : []).forEach(pair => {
+    const [sku, h] = Array.isArray(pair) ? pair : [];
+    if (SKUS[sku] && isFinite(Number(h))) hoursOverride[sku] = Number(h);
+  });
+
+  state.rows = [];
+  o.l.forEach(seg => {
+    const [sku, qty, price] = Array.isArray(seg) ? seg : [];
+    if (!SKUS[sku]) return;
+    const p = isFinite(Number(price)) ? Number(price) : SKUS[sku].price;
+    priceOverride[sku] = p;
+    state.rows.push({ sku, qty: Math.max(0, Math.floor(Number(qty) || 0)), price: p, hours: hoursFor(sku) });
+  });
+
+  if (o.c === 1) MODE.discount = true;
+  return true;
+}
+
 // Reads the query string into state. Called once, before the first render.
 function readUrl() {
+  if (applyCode(params.get("e"))) return;
+
+  // ponytail: fallback for the spelled-out links generated before 17 Sep 2026.
+  // Delete this block once none of those are still circulating.
   (params.get("h") || "").split(",").filter(Boolean).forEach(seg => {
     const [sku, h] = seg.split(":");
     if (SKUS[sku] && isFinite(Number(h))) hoursOverride[sku] = Number(h);
   });
-
   state.account = params.get("a") || "";
   state.ns = params.get("ns") || "";
   state.term = Number(params.get("t")) || 12;
   const d = params.get("d");
   if (/^\d{4}-\d{2}-\d{2}$/.test(d || "")) state.date = d;
-
   (params.get("l") || "").split(",").filter(Boolean).forEach(seg => {
     const [sku, qty, price] = seg.split(":");
     if (!SKUS[sku]) return;
@@ -838,11 +910,19 @@ function demo() {
   // the client link never carries internal state
   hoursOverride.e2ecc = 3;
   const clientQ = buildQuery(false);
-  if (/(^|&)h=/.test(clientQ)) throw new Error("client link leaks hours");
   if (/internal=/.test(clientQ)) throw new Error("client link leaks internal flag");
   if (/edit=/.test(clientQ)) throw new Error("client link leaks edit flag");
-  if (!/(^|&)l=/.test(clientQ)) throw new Error("client link is missing the line items");
+  const clientBody = JSON.parse(unb64u(new URLSearchParams(clientQ).get("e").slice(CODE_PREFIX.length)));
+  if (clientBody.h) throw new Error("client code leaks hours");
+  if (!Array.isArray(clientBody.l)) throw new Error("client code is missing the line items");
+  if (!JSON.parse(unb64u(encodeState(true).slice(CODE_PREFIX.length))).h) throw new Error("internal code dropped hours");
   delete hoursOverride.e2ecc;
+
+  // a code survives a round trip through the encoder unchanged
+  const snapshot = encodeState(true);
+  if (!applyCode("noise " + snapshot + " noise")) throw new Error("round trip: code rejected");
+  if (encodeState(true) !== snapshot) throw new Error("round trip: code not stable");
+  if (applyCode("not a code")) throw new Error("round trip: garbage accepted");
 
   console.log("demo: all assertions passed");
   return true;
@@ -1038,10 +1118,14 @@ function renderCards() {
     const flip = () => {
       const now = !card.classList.contains("flipped");
       card.classList.toggle("flipped", now);
+      card.classList.remove("turning");
+      void card.offsetWidth;          // restart the blur even on a fast re-click
+      card.classList.add("turning");
       ctlFront.setAttribute("aria-expanded", String(now));
       ctlBack.setAttribute("aria-expanded", String(!now));
       (now ? ctlBack : ctlFront).focus();
     };
+    inner.addEventListener("animationend", () => card.classList.remove("turning"));
     ctlFront.addEventListener("click", e => { e.stopPropagation(); flip(); });
     ctlBack.addEventListener("click", e => { e.stopPropagation(); flip(); });
     card.addEventListener("click", flip);
@@ -1246,7 +1330,7 @@ function init() {
   $("share").addEventListener("click", () => {
     state.date = new Date().toISOString().slice(0, 10);
     $("stamp").textContent = stampText();
-    copy(shareUrl(false), MODE.internal ? "Client-safe link copied" : "Link copied");
+    copy(shareUrl(false), MODE.internal ? "Client-safe pricing link copied" : "Pricing link copied");
   });
   $("share-internal").addEventListener("click", () => {
     copy(shareUrl(true), "Internal link copied");
