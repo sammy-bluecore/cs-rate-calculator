@@ -1,0 +1,1271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Price Bluecore Campaign Services work from the four published SKUs, then share the estimate as a link.">
+<title>Campaign Services Rate Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#F3F5FA;
+  --surface:#FFFFFF;
+  --surface-2:#EDF0F7;
+  --ink:#131A2E;
+  --ink-2:#4A5470;
+  --ink-3:#7A849E;
+  --line:#DFE3EE;
+  --line-2:#C6CCDD;
+
+  --blue:#2B4C9B;   --blue-bg:#E9EFFA;
+  --green:#15715A;  --green-bg:#E2F0EB;
+  --orange:#D9501F; --orange-bg:#FDECE4;
+  --gold:#8A6817;   --gold-bg:#F7EFD9;
+
+  --grad-surface:linear-gradient(160deg,#FFFFFF 0%,#F6F8FD 100%);
+  --grad-panel:linear-gradient(160deg,#FFFFFF 0%,#F2F5FC 100%);
+  --grad-cta:linear-gradient(160deg,#2F74DB 0%,#004E9B 100%);
+  --grad-rule:linear-gradient(90deg,#004E9B,#2B4C9B 35%,#15715A 68%,#D9501F);
+
+  --sh-1:0 1px 2px rgba(19,26,46,.06), 0 8px 22px rgba(19,26,46,.07);
+  --sh-2:0 2px 5px rgba(19,26,46,.08), 0 18px 44px rgba(19,26,46,.15);
+  --sh-in:inset 0 1px 0 rgba(255,255,255,.85);
+
+  --r-card:16px; --r-panel:14px; --r-ctl:10px;
+
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  color-scheme:light dark;
+  padding-top:env(safe-area-inset-top, 0px);
+  padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+img{max-width:100%}
+[hidden]{display:none !important}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1020;
+    --surface:#151B2C;
+    --surface-2:#1D2436;
+    --ink:#EAEDF4;
+    --ink-2:#B2BACD;
+    --ink-3:#818BA4;
+    --line:#283048;
+    --line-2:#3A4463;
+
+    --blue:#7FA0E8;   --blue-bg:#19233E;
+    --green:#4CBE95;  --green-bg:#0F2A22;
+    --orange:#FF7C4D; --orange-bg:#331910;
+    --gold:#D6AF5C;   --gold-bg:#2B2312;
+
+    --grad-surface:linear-gradient(160deg,#1A2133 0%,#131926 100%);
+    --grad-panel:linear-gradient(160deg,#1B2235 0%,#141A29 100%);
+    --grad-cta:linear-gradient(160deg,#3F82DB 0%,#1A4A88 100%);
+    --grad-rule:linear-gradient(90deg,#7FA0E8,#7FA0E8 35%,#4CBE95 68%,#FF7C4D);
+
+    --sh-1:0 1px 2px rgba(0,0,0,.45), 0 8px 22px rgba(0,0,0,.35);
+    --sh-2:0 2px 5px rgba(0,0,0,.5), 0 18px 44px rgba(0,0,0,.5);
+    --sh-in:inset 0 1px 0 rgba(255,255,255,.05);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1020;
+  --surface:#151B2C;
+  --surface-2:#1D2436;
+  --ink:#EAEDF4;
+  --ink-2:#B2BACD;
+  --ink-3:#818BA4;
+  --line:#283048;
+  --line-2:#3A4463;
+
+  --blue:#7FA0E8;   --blue-bg:#19233E;
+  --green:#4CBE95;  --green-bg:#0F2A22;
+  --orange:#FF7C4D; --orange-bg:#331910;
+  --gold:#D6AF5C;   --gold-bg:#2B2312;
+
+  --grad-surface:linear-gradient(160deg,#1A2133 0%,#131926 100%);
+  --grad-panel:linear-gradient(160deg,#1B2235 0%,#141A29 100%);
+  --grad-cta:linear-gradient(160deg,#3F82DB 0%,#1A4A88 100%);
+  --grad-rule:linear-gradient(90deg,#7FA0E8,#7FA0E8 35%,#4CBE95 68%,#FF7C4D);
+
+  --sh-1:0 1px 2px rgba(0,0,0,.45), 0 8px 22px rgba(0,0,0,.35);
+  --sh-2:0 2px 5px rgba(0,0,0,.5), 0 18px 44px rgba(0,0,0,.5);
+  --sh-in:inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:15.5px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:1040px;
+  margin:0 auto;
+  padding-inline:16px;
+  padding-block:30px 46px;
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+h1,h2,h3{font-family:var(--sans);font-weight:700;letter-spacing:-.022em;line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,4.2vw,40px)}
+h2{font-size:19px}
+h3{font-size:16px}
+p{margin:0}
+.eyebrow{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+/* ---------- header ---------- */
+.head{
+  background:var(--grad-panel);
+  border:1px solid var(--line);
+  border-radius:var(--r-panel);
+  box-shadow:var(--sh-1),var(--sh-in);
+  padding:24px 24px 0;
+  overflow:hidden;
+}
+.head-top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;justify-content:space-between}
+.head h1{margin:6px 0 8px}
+.head .lead{color:var(--ink-2);max-width:56ch;font-size:15px}
+.head-rule{height:3px;background:var(--grad-rule);margin:20px -24px 0;border-radius:3px 3px 0 0}
+.head-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.flagbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+#unlock{cursor:default;user-select:none;-webkit-user-select:none;background:none;border:none;padding:0;text-align:left;font:inherit}
+#unlock.eyebrow{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ---------- controls ---------- */
+button{font-family:var(--sans);cursor:pointer}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13.5px;font-weight:600;
+  padding:10px 16px;border-radius:var(--r-ctl);
+  border:1px solid var(--line-2);
+  background:var(--surface);color:var(--ink);
+  box-shadow:0 2px 0 rgba(19,26,46,.10);
+  transition:transform .14s ease, box-shadow .14s ease, background .14s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 0 rgba(19,26,46,.10)}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(19,26,46,.10)}
+.btn-primary{
+  background:var(--grad-cta);color:#fff;border-color:transparent;
+  box-shadow:0 2px 0 rgba(0,40,90,.45), 0 10px 22px rgba(0,60,140,.28);
+}
+.btn-primary:hover{box-shadow:0 4px 0 rgba(0,40,90,.45), 0 14px 30px rgba(0,60,140,.34)}
+.btn-primary:active{box-shadow:0 1px 0 rgba(0,40,90,.45)}
+.btn-ghost{background:transparent;box-shadow:none;border-style:dashed;color:var(--ink-2)}
+.btn-ghost:hover{box-shadow:none;background:var(--surface-2);color:var(--ink)}
+.btn-sm{font-size:12.5px;padding:8px 12px}
+.btn svg{flex:none}
+
+label.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+label.fld > span{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+input,select{
+  font-family:var(--sans);font-size:14.5px;color:var(--ink);
+  background:var(--surface);
+  border:1px solid var(--line-2);border-radius:var(--r-ctl);
+  padding:10px 12px;width:100%;min-width:0;
+  box-shadow:inset 0 1px 2px rgba(19,26,46,.05);
+}
+input:hover,select:hover{border-color:var(--blue)}
+input[type=number]{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:999px;
+  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);
+}
+button.pill{cursor:pointer}
+.pill.on-blue{background:var(--blue-bg);color:var(--blue);border-color:transparent}
+.pill.on-green{background:var(--green-bg);color:var(--green);border-color:transparent}
+.pill.on-orange{background:var(--orange-bg);color:var(--orange);border-color:transparent}
+
+.switches{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:flex-end}
+.switch{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.switch input{width:auto;min-width:0;padding:0;box-shadow:none;accent-color:var(--blue);inline-size:15px;block-size:15px}
+
+/* ---------- panels ---------- */
+.panel{
+  background:var(--grad-panel);
+  border:1px solid var(--line);
+  border-radius:var(--r-panel);
+  box-shadow:var(--sh-1),var(--sh-in);
+  padding:20px 22px 22px;
+}
+.panel-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:16px}
+.panel-head .hint{font-size:13px;color:var(--ink-3)}
+
+.setup-grid{display:grid;grid-template-columns:2fr 1.3fr 1fr;gap:14px}
+
+/* ---------- line items ---------- */
+.row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 88px 112px 128px 148px 34px;
+  gap:12px;align-items:center;
+}
+.internal .row{grid-template-columns:minmax(0,1fr) 88px 112px 78px 128px 148px 34px}
+
+.row-head{
+  font-family:var(--mono);font-size:9.5px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  padding-bottom:8px;border-bottom:1.5px solid var(--line-2);margin-bottom:10px;
+}
+.row-head .num{text-align:right}
+.rows{display:flex;flex-direction:column;gap:10px}
+.item{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent,var(--blue));
+  border-radius:0 var(--r-ctl) var(--r-ctl) 0;
+  padding:10px 12px;
+  box-shadow:0 1px 2px rgba(19,26,46,.05);
+  transition:box-shadow .14s ease, border-color .14s ease;
+}
+.item:hover{box-shadow:0 2px 10px rgba(19,26,46,.10)}
+.skucell{display:flex;align-items:center;gap:10px;min-width:0}
+.glyph{
+  width:30px;height:30px;flex:none;border-radius:9px;
+  display:grid;place-items:center;
+  background:var(--accent-bg,var(--blue-bg));color:var(--accent,var(--blue));
+}
+.skusel{border:none;background:transparent;padding:6px 4px;box-shadow:none;font-weight:600;font-size:14px}
+.skusel:hover{border:none;background:var(--surface-2)}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14.5px}
+.num.strong{font-weight:600}
+.editable{
+  text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:14.5px;
+  padding:8px 10px;
+}
+.del{
+  width:34px;height:34px;border-radius:9px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink-3);display:grid;place-items:center;
+  box-shadow:none;padding:0;
+  transition:color .14s, border-color .14s, background .14s;
+}
+.del:hover{color:var(--orange);border-color:var(--orange);background:var(--orange-bg);transform:none;box-shadow:none}
+.items-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-2)}
+.presets .eyebrow{width:100%}
+.chip{
+  font-family:var(--sans);font-size:12.5px;font-weight:600;
+  padding:7px 12px;border-radius:999px;
+  border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+  box-shadow:0 1px 2px rgba(19,26,46,.05);
+  transition:transform .14s ease, box-shadow .14s ease, color .14s, border-color .14s;
+}
+.chip:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(19,26,46,.12);color:var(--ink);border-color:var(--blue)}
+
+/* ---------- totals ---------- */
+.totals{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:var(--r-panel);
+  overflow:hidden;
+  box-shadow:var(--sh-2);
+}
+.internal .totals{grid-template-columns:1fr 1fr 1fr}
+.tot{
+  background:var(--grad-surface);
+  padding:18px 20px 20px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.tot.hero{background:var(--grad-cta);color:#fff}
+.tot.hero .eyebrow{color:rgba(255,255,255,.72)}
+.tot.hero .sub{color:rgba(255,255,255,.78)}
+.tot .val{
+  font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:clamp(24px,3.4vw,32px);font-weight:600;letter-spacing:-.02em;
+}
+.tot .sub{font-size:12.5px;color:var(--ink-3)}
+.tot .was{
+  font-family:var(--mono);font-size:14px;text-decoration:line-through;
+  opacity:.65;
+}
+
+/* ---------- discount ---------- */
+.disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ladder{display:flex;flex-direction:column;gap:8px}
+.tier{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border-radius:var(--r-ctl);
+  border:1px solid var(--line);background:var(--surface);
+  transition:transform .14s ease, box-shadow .14s ease;
+}
+.tier .t-pct{font-family:var(--mono);font-weight:600;font-size:16px;min-width:46px}
+.tier .t-req{font-size:13.5px;color:var(--ink-3);flex:1}
+.tier.hit{
+  background:var(--green-bg);border-color:transparent;color:var(--green);
+  box-shadow:0 2px 12px rgba(21,113,90,.18);
+}
+.tier.hit .t-req{color:var(--green)}
+.tier.next{border-color:var(--blue);border-style:dashed}
+.savebox{
+  background:var(--green-bg);border-radius:var(--r-ctl);padding:16px 18px;
+  display:flex;flex-direction:column;gap:6px;
+  box-shadow:inset 0 0 0 1px rgba(21,113,90,.16);
+}
+.savebox .big{font-family:var(--mono);font-size:26px;font-weight:600;color:var(--green);font-variant-numeric:tabular-nums}
+.savebox .line{font-size:13.5px;color:var(--ink-2)}
+.nudge{
+  margin-top:12px;padding:12px 14px;border-radius:var(--r-ctl);
+  background:var(--blue-bg);color:var(--blue);font-size:13.5px;
+  border-left:3px solid var(--blue);
+}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{
+  perspective:1400px;
+  transition:transform .2s ease;
+}
+.card:hover{transform:translateY(-6px) scale(1.02)}
+.card-inner{
+  display:grid;
+  transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.22,.7,.3,1), box-shadow .2s ease;
+  border-radius:var(--r-card);
+  box-shadow:var(--sh-1);
+}
+.card:hover .card-inner{box-shadow:var(--sh-2)}
+.card.flipped .card-inner{transform:rotateY(180deg)}
+.face{
+  grid-area:1/1;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  background:var(--grad-surface);
+  border:1px solid var(--line);
+  border-top:3px solid var(--accent,var(--blue));
+  border-radius:var(--r-card);
+  padding:18px 18px 16px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.face.back{transform:rotateY(180deg);background:var(--accent-bg,var(--blue-bg))}
+.card-top{display:flex;align-items:center;gap:10px}
+.card .price{
+  font-family:var(--mono);font-size:19px;font-weight:600;color:var(--accent,var(--blue));
+  font-variant-numeric:tabular-nums;
+}
+.card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--ink-2)}
+.face.back ul{color:var(--ink)}
+.card li::marker{color:var(--accent,var(--blue))}
+.card .flipctl{
+  margin-top:auto;align-self:flex-start;
+  font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  background:transparent;border:none;padding:6px 0 0;color:var(--ink-3);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.card .flipctl:hover{color:var(--accent,var(--blue))}
+.warn{
+  background:var(--orange-bg);color:var(--orange);
+  border-radius:8px;padding:8px 10px;font-size:12.5px;font-weight:500;
+  font-family:var(--sans);
+}
+
+/* ---------- footer ---------- */
+.foot{
+  display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;
+  padding-top:18px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-3);
+}
+.foot strong{color:var(--ink-2);font-weight:500}
+.toast{
+  position:fixed;left:50%;
+  bottom:calc(24px + env(safe-area-inset-bottom, 0px));
+  transform:translateX(-50%) translateY(8px);
+  background:var(--ink);color:var(--paper);
+  font-family:var(--sans);font-size:13.5px;font-weight:600;
+  padding:11px 18px;border-radius:999px;box-shadow:var(--sh-2);
+  opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;
+  z-index:50;max-width:90vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .setup-grid{grid-template-columns:1fr 1fr}
+  .cards{grid-template-columns:1fr}
+  .disc-grid{grid-template-columns:1fr}
+  .internal .totals,.totals{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .setup-grid{grid-template-columns:1fr}
+  .row-head{display:none}
+  .row,.internal .row{grid-template-columns:1fr 1fr;gap:8px 12px}
+  .item{border-radius:var(--r-ctl);border-left-width:4px;padding:12px}
+  .skucell{grid-column:1 / -1}
+  .row .num,.row .editable{text-align:right}
+  .row [data-label]::before{
+    content:attr(data-label);
+    display:block;
+    font-family:var(--mono);font-size:9px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+    text-align:left;margin-bottom:2px;
+  }
+  .del{justify-self:end;grid-column:2}
+  .head{padding:20px 18px 0}
+  .head-rule{margin:18px -18px 0}
+  .head-actions{align-items:flex-start;width:100%}
+  .flagbar,.switches{justify-content:flex-start}
+}
+
+/* ---------- internal-only visibility ----------
+   Kept last so it wins over .tot's own display, whatever the order above. */
+.c-hours{display:none}
+.internal .row .c-hours{display:block}
+.internal .totals .c-hours{display:flex}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;animation:none !important}
+  .card:hover{transform:none}
+  .card.flipped .card-inner{transform:none}
+  .face.back{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="head-top">
+      <div>
+        <button id="unlock" class="eyebrow" type="button" title="Option-click, or Alt+Shift+I, for internal view">Bluecore Campaign Services</button>
+        <h1>Rate Calculator</h1>
+        <p class="lead">Build a campaign services estimate, then share the link. Everything you change is stored in the address, so whoever opens it sees exactly what you built and can adjust it themselves.</p>
+      </div>
+      <div class="head-actions">
+        <button class="btn btn-primary" id="share" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          <span id="share-label">Copy share link</span> <span aria-hidden="true">🔗</span>
+        </button>
+        <button class="btn btn-sm" id="share-internal" type="button" hidden>Copy internal link</button>
+        <div class="flagbar" id="flagbar"></div>
+        <div class="switches" id="switches" hidden>
+          <label class="switch"><input type="checkbox" id="sw-edit"> Edit rates</label>
+          <label class="switch"><input type="checkbox" id="sw-disc"> Volume pricing</label>
+        </div>
+      </div>
+    </div>
+    <div class="head-rule"></div>
+  </header>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Account</h2>
+      <p class="hint" id="term-hint"></p>
+    </div>
+    <div class="setup-grid">
+      <label class="fld"><span>Account name</span>
+        <input id="account" type="text" placeholder="Type an account name" autocomplete="off">
+      </label>
+      <label class="fld"><span>Namespace</span>
+        <input id="ns" type="text" placeholder="e.g. loft" autocomplete="off" spellcheck="false">
+      </label>
+      <label class="fld"><span>Contract term</span>
+        <select id="term">
+          <option value="1">One-time</option>
+          <option value="3">3 months</option>
+          <option value="6">6 months</option>
+          <option value="12" selected>12 months</option>
+          <option value="24">24 months</option>
+        </select>
+      </label>
+    </div>
+    <datalist id="accounts"></datalist>
+  </section>
+
+  <section class="panel" id="items-panel">
+    <div class="panel-head">
+      <h2>Line items</h2>
+      <p class="hint" id="qty-hint">Quantity is per month.</p>
+    </div>
+
+    <div class="row row-head" aria-hidden="true">
+      <div>SKU</div>
+      <div class="num">Qty</div>
+      <div class="num">Unit price</div>
+      <div class="num c-hours">Hours</div>
+      <div class="num">Monthly</div>
+      <div class="num" id="head-term">Contract</div>
+      <div></div>
+    </div>
+
+    <div class="rows" id="rows"></div>
+
+    <div class="items-foot">
+      <button class="btn btn-ghost" id="add" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add line item
+      </button>
+      <button class="btn btn-ghost" id="clear" type="button">Clear all</button>
+    </div>
+
+    <div class="presets">
+      <p class="eyebrow">Start from a worked example</p>
+      <button class="chip" data-preset="0" type="button">Journeys with touches</button>
+      <button class="chip" data-preset="1" type="button">Site across namespaces</button>
+      <button class="chip" data-preset="2" type="button">Multi-language Communicate</button>
+      <button class="chip" data-preset="3" type="button">Lead capture, email and SMS</button>
+      <button class="chip" data-preset="4" type="button">Journeys plus creative refresh</button>
+    </div>
+  </section>
+
+  <section class="totals" id="totals">
+    <div class="tot">
+      <p class="eyebrow">Per month</p>
+      <div><span class="was" id="v-monthly-was" hidden></span></div>
+      <p class="val" id="v-monthly">$0</p>
+      <p class="sub" id="s-monthly">Nothing added yet</p>
+    </div>
+    <div class="tot hero">
+      <p class="eyebrow" id="l-contract">Contract total</p>
+      <div><span class="was" id="v-contract-was" hidden></span></div>
+      <p class="val" id="v-contract">$0</p>
+      <p class="sub" id="s-contract">Add a line item to begin</p>
+    </div>
+    <div class="tot c-hours">
+      <p class="eyebrow">Delivery effort</p>
+      <p class="val" id="v-hours">0h</p>
+      <p class="sub" id="s-hours">Internal view only</p>
+    </div>
+  </section>
+
+  <section class="panel" id="disc-panel" hidden>
+    <div class="panel-head">
+      <h2>Volume pricing</h2>
+      <p class="hint">Discounts apply automatically as campaign volume grows.</p>
+    </div>
+    <div class="disc-grid">
+      <div class="ladder" id="ladder"></div>
+      <div>
+        <div class="savebox">
+          <p class="eyebrow">Your saving</p>
+          <p class="big" id="d-save">$0</p>
+          <p class="line" id="d-line">No volume discount applied yet.</p>
+          <p class="line" id="d-eff"></p>
+        </div>
+        <div class="nudge" id="d-nudge" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cards" id="cards"></section>
+
+  <footer class="foot">
+    <p><strong>Estimate for discussion, not a binding quote.</strong> Pricing follows the Bluecore Campaign Services campaign definitions.</p>
+    <p class="mono" id="stamp"></p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* ===================== configuration =====================
+   Everything a rate change touches lives in this block. */
+
+const HOURLY_RATE = 65;
+
+const SKUS = {
+  e2ebc: {
+    label: "End-to-End Campaign Setup",
+    sub: "Bluecore designed creative",
+    price: 1105, hours: 17, accent: "gold"
+  },
+  e2ecc: {
+    label: "End-to-End Campaign Setup",
+    sub: "Customer provided creative",
+    price: 585, hours: 9, accent: "blue"
+  },
+  touch: {
+    label: "Subsequent Touch",
+    sub: "Discounted, same End-to-End SKU",
+    // ponytail: 7h is 470/65 rounded. The definitions doc publishes no hours
+    // figure for a subsequent touch. Confirm with the team, then edit here.
+    price: 470, hours: 7, accent: "green"
+  },
+  rev: {
+    label: "Campaign Update & Revision",
+    sub: "Per template update",
+    price: 130, hours: 2, accent: "orange"
+  }
+};
+const SKU_KEYS = Object.keys(SKUS);
+
+// Volume tier ladder. Thresholds are total campaign BUILD units across the
+// whole contract term. Edit freely once the commercial framing is settled.
+const DISCOUNT_TIERS = [
+  { min: 25,  pct: 5  },
+  { min: 50,  pct: 10 },
+  { min: 100, pct: 15 }
+];
+// ponytail: revisions deliberately excluded from the threshold count, a client
+// cannot discount their way up the ladder on $130 revisions. Add 'rev' to flip.
+const TIER_BASIS = ["e2ebc", "e2ecc", "touch"];
+
+const ACCOUNTS = ["Adorama Camera, Inc.","Alo LLC","America's Collectible Network, Inc. dba Jewelry TV","Ariat International, Inc.","Arlo Technologies, Inc.","Backcountry.com, LLC","Bloomingdales.com, LLC","Brilliant Earth, LLC","CDW LLC","Caleres, Inc.","Carhartt, Inc.","Centric Brands, Inc.","Chanel, Inc.","City Furniture, Inc.","Cornerstone Brands, Inc.","David's Bridal, LLC","Destination XL Group, Inc.","Evolucion Innovations, Inc.","Foot Locker Corporate Services Inc","FragranceX.com, Inc.","Galls, LLC","Great Northern Equipment Distributing, Inc.","H&M Hennes & Mauritz Japan KK","Huckberry","J. Crew Group, LLC","Jockey International, Inc.","Jordan's Furniture","Kohler Co.","Lacoste USA, Inc.","Lamps Plus, Inc.","Lenovo Global Technologies Ireland International Limited","Living Spaces Furniture, LLC","Lulu & Georgia, Inc","Macys.com, LLC","Michael Kors (USA), Inc.","NYDJ Apparel, LLC","Nordstrom Inc.","Northern Tool & Equipment Company, Inc.","Oriental Trading Company, Inc.","Paul Fredrick Menstyle, LLC","Phoenix Retail, LLC","Premium Brands Services LLC","QVC, Inc.","R.C. Bigelow, Inc.","Ralph Lauren Corporation","Recreational Equipment, Inc.","S&S Worldwide","Saatchi Online, Inc.","Sephora USA, Inc.","Shimano North America Holding, Inc.","SimpliSafe, Inc.","Teleflora LLC","TestEquity LLC","The Gap, Inc.","Tom Ford Retail LLC","Tourneau, LLC","URBN US Retail LLC","VF Services, LLC","World Market Management Services, LLC.","XpressMyself.com LLC dba SmartSign"];
+
+// Worked examples from the campaign definitions doc. Each is a one-time total.
+const PRESETS = [
+  { name: "Journeys with touches",        term: 1, rows: [["e2ecc",4],["touch",12]],            doc: 7980  },
+  { name: "Site across namespaces",       term: 1, rows: [["e2ecc",15]],                        doc: 8775  },
+  { name: "Multi-language Communicate",   term: 1, rows: [["e2ecc",40]],                        doc: 23400 },
+  { name: "Lead capture, email and SMS",  term: 1, rows: [["e2ecc",5]],                         doc: 2925  },
+  { name: "Journeys plus refresh",        term: 1, rows: [["e2ecc",2],["touch",4],["rev",6]],   doc: 3830  }
+];
+
+const CARDS = [
+  {
+    key: "e2e", accent: "blue", title: "End-to-End Build",
+    price: "$585 / $1,105",
+    priceNote: "Customer creative / Bluecore creative",
+    includes: [
+      "Validation of your campaign submission",
+      "Creative design and scope",
+      "Audience configuration, segmentation, product rules and scheduling",
+      "Template design in the visual template editor",
+      "Campaign setup: timing, tracking, triggers and rules",
+      "QA testing, then up to two rounds of client review",
+      "Deployment, launch and monitoring"
+    ],
+    rules: [
+      "A Site campaign is 2 builds, mobile and desktop.",
+      "A journey or multi-touch campaign is 1 build, and every touch after the first is a discounted subsequent touch.",
+      "A global widget with no campaign attached is 1 build. Bundled with a new build it is included.",
+      "A duplicated campaign needing multiple component updates and two reviews is 1 build.",
+      "Accessibility: Site to WCAG 2.0 AA, Email to WCAG 2.0 AAA or 2.1 AA."
+    ]
+  },
+  {
+    key: "touch", accent: "green", title: "Subsequent Touch",
+    price: "$470",
+    priceNote: "20 percent off the end-to-end rate",
+    includes: [
+      "Every step of an end-to-end build, applied to a later touch",
+      "Audience and product rules for that touch",
+      "Template design and campaign setup",
+      "QA testing and up to two rounds of client review",
+      "Deployment and monitoring alongside the parent journey"
+    ],
+    rules: [
+      "Book it under the Campaign: End to End Setup SKU, at the discounted rate.",
+      "Never book a subsequent touch as a Revision. That breaks contract usage tracking.",
+      "It applies to touches inside a journey, experience designer flow or multi-touch campaign.",
+      "The first touch in the journey is a full end-to-end build, not a subsequent touch."
+    ]
+  },
+  {
+    key: "rev", accent: "orange", title: "Revision",
+    price: "$130",
+    priceNote: "Per template update",
+    includes: [
+      "Validation of your revision submission",
+      "Creative design and scope",
+      "Updates to audience, content, schedule or settings",
+      "Template updates in the visual template editor",
+      "QA testing and client review",
+      "Redeployment and monitoring"
+    ],
+    rules: [
+      "One revision equals one template update, on a campaign, journey, global widget or Site campaign.",
+      "It covers SMS keyword and reply updates too.",
+      "It does not cover a new touch inside a journey. That is a subsequent touch.",
+      "A duplicate needing multiple component changes is a build, not a revision."
+    ]
+  }
+];
+
+/* ===================== pure calculation ===================== */
+
+function computeTotals(rows, term, discountOn) {
+  let monthly = 0, hours = 0, monthlyBuilds = 0;
+  for (const r of rows) {
+    const qty = Math.max(0, Math.floor(Number(r.qty) || 0));
+    monthly += qty * r.price;
+    hours   += qty * r.hours;
+    if (TIER_BASIS.includes(r.sku)) monthlyBuilds += qty;
+  }
+  const t = Math.max(1, Number(term) || 1);
+  const contract = monthly * t;
+  const builds = monthlyBuilds * t;
+
+  let tier = null, next = null;
+  if (discountOn) {
+    for (const x of DISCOUNT_TIERS) if (builds >= x.min) tier = x;
+    next = DISCOUNT_TIERS.find(x => builds < x.min) || null;
+  }
+  const pct = tier ? tier.pct : 0;
+  const netMonthly  = monthly  * (1 - pct / 100);
+  const netContract = contract * (1 - pct / 100);
+
+  return {
+    monthly, contract, hours, days: hours / 8,
+    builds, tier, next, pct,
+    netMonthly, netContract,
+    saveMonthly: monthly - netMonthly,
+    saveContract: contract - netContract,
+    effectivePerBuild: builds > 0 ? netContract / builds : 0
+  };
+}
+
+/* ===================== state ===================== */
+
+const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+
+const params = new URLSearchParams(location.search);
+const MODE = {
+  internal: params.get("internal") === "1",
+  edit:     params.get("edit") === "1",
+  discount: params.get("discount") === "1"
+};
+// Editing rates is meaningless without the internal view around it.
+if (MODE.edit) MODE.internal = true;
+
+const state = {
+  account: "",
+  ns: "",
+  term: 12,
+  date: new Date().toISOString().slice(0, 10),
+  rows: []
+};
+
+// Hours overrides, keyed by SKU. Only ever leave this page in an internal code.
+const hoursOverride = {};
+// Price overrides, so a new row of an already-repriced SKU inherits the new price.
+const priceOverride = {};
+
+function hoursFor(sku) { return hoursOverride[sku] != null ? hoursOverride[sku] : SKUS[sku].hours; }
+function priceFor(sku) { return priceOverride[sku] != null ? priceOverride[sku] : SKUS[sku].price; }
+
+/* ---- URL state ----
+   The whole estimate lives in the query string, so a link IS the estimate. */
+
+function buildQuery(includeInternal) {
+  const q = new URLSearchParams();
+  if (state.account) q.set("a", state.account);
+  if (state.ns) q.set("ns", state.ns);
+  q.set("t", String(state.term));
+  q.set("l", state.rows.map(r => r.sku + ":" + r.qty + ":" + r.price).join(","));
+  q.set("d", state.date);
+  if (MODE.discount) q.set("discount", "1");
+  if (includeInternal) {
+    // Hours and the mode flags only ever ride in an internal link.
+    const h = Object.keys(hoursOverride)
+      .filter(k => hoursOverride[k] !== SKUS[k].hours)
+      .map(k => k + ":" + hoursOverride[k]);
+    if (h.length) q.set("h", h.join(","));
+    if (MODE.internal) q.set("internal", "1");
+    if (MODE.edit) q.set("edit", "1");
+  }
+  return q.toString();
+}
+
+function shareUrl(includeInternal) {
+  return location.origin + location.pathname + "?" + buildQuery(includeInternal);
+}
+
+let urlTimer = null;
+function syncUrl() {
+  clearTimeout(urlTimer);
+  urlTimer = setTimeout(() => {
+    try { history.replaceState(null, "", location.pathname + "?" + buildQuery(true)); }
+    catch (e) { /* nothing to do, the page still works */ }
+  }, 250);
+}
+
+// Reads the query string into state. Called once, before the first render.
+function readUrl() {
+  (params.get("h") || "").split(",").filter(Boolean).forEach(seg => {
+    const [sku, h] = seg.split(":");
+    if (SKUS[sku] && isFinite(Number(h))) hoursOverride[sku] = Number(h);
+  });
+
+  state.account = params.get("a") || "";
+  state.ns = params.get("ns") || "";
+  state.term = Number(params.get("t")) || 12;
+  const d = params.get("d");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(d || "")) state.date = d;
+
+  (params.get("l") || "").split(",").filter(Boolean).forEach(seg => {
+    const [sku, qty, price] = seg.split(":");
+    if (!SKUS[sku]) return;
+    const p = isFinite(Number(price)) ? Number(price) : SKUS[sku].price;
+    priceOverride[sku] = p;
+    state.rows.push({ sku, qty: Math.max(0, Math.floor(Number(qty) || 0)), price: p, hours: hoursFor(sku) });
+  });
+}
+
+/* ---- per-viewer storage. Never travels in a link. ---- */
+
+const LS_UNLOCK = "cs-rate-internal";
+
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private window */ } }
+function lsDel(k) { try { localStorage.removeItem(k); } catch (e) { /* private window */ } }
+
+/* ===================== runnable check =====================
+   Call demo() from the browser console. */
+function demo() {
+  const mk = pairs => pairs.map(([sku, qty]) => ({ sku, qty, price: SKUS[sku].price, hours: SKUS[sku].hours }));
+  const eq = (a, b, msg) => { if (Math.abs(a - b) > 0.005) throw new Error(msg + ": expected " + b + ", got " + a); };
+
+  PRESETS.forEach(p => eq(computeTotals(mk(p.rows), p.term, false).contract, p.doc, p.name));
+
+  eq(computeTotals(mk([["e2ecc", 2]]), 12, false).contract, 585 * 2 * 12, "term x12");
+  eq(computeTotals(mk([["rev", 200]]), 12, true).pct, 0, "revisions excluded from tiers");
+  eq(computeTotals(mk([["e2ecc", 30]]), 1, true).pct, 5, "tier 1 at 30 builds");
+  eq(computeTotals(mk([["e2ecc", 30]]), 1, true).netContract, 585 * 30 * 0.95, "tier 1 net");
+  eq(computeTotals(mk([["e2ecc", 10]]), 12, true).pct, 15, "top tier across term");
+  eq(computeTotals(mk([["e2ecc", 24]]), 1, true).pct, 0, "below tier 1");
+
+  // the client link never carries internal state
+  hoursOverride.e2ecc = 3;
+  const clientQ = buildQuery(false);
+  if (/(^|&)h=/.test(clientQ)) throw new Error("client link leaks hours");
+  if (/internal=/.test(clientQ)) throw new Error("client link leaks internal flag");
+  if (/edit=/.test(clientQ)) throw new Error("client link leaks edit flag");
+  if (!/(^|&)l=/.test(clientQ)) throw new Error("client link is missing the line items");
+  delete hoursOverride.e2ecc;
+
+  console.log("demo: all assertions passed");
+  return true;
+}
+window.demo = demo;
+
+/* ===================== rendering ===================== */
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, txt) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (txt != null) n.textContent = txt;
+  return n;
+};
+
+const GLYPHS = {
+  e2ebc: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 1 9-9c0 1.7-1.3 3-3 3h-1.6a1.9 1.9 0 0 0-1.3 3.3c.4.4.4 1.1 0 1.5-.6.6-1.5 1.2-3.1 1.2Z"/><circle cx="7.6" cy="12.2" r="1.1" fill="currentColor" stroke="none"/><circle cx="9.9" cy="8.2" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.3" cy="8.2" r="1.1" fill="currentColor" stroke="none"/></svg>',
+  e2ecc: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8.5 4.6L12 12.2 3.5 7.6 12 3Z"/><path d="m4 12.4 8 4.3 8-4.3"/><path d="m4 16.8 8 4.3 8-4.3"/></svg>',
+  touch: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="12" r="2.4"/><circle cx="18" cy="19" r="2.4"/><path d="M6 8.4v6.2a2 2 0 0 0 2 2h7.6"/><path d="M6 8.4v1.2a2.4 2.4 0 0 0 2.4 2.4h7.2"/></svg>',
+  rev: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.9a2.1 2.1 0 0 1 3 3L8.4 18l-4 1 1-4 11.1-11.1Z"/><path d="m14.4 6 3 3"/></svg>'
+};
+
+function accentVars(node, accent) {
+  node.style.setProperty("--accent", "var(--" + accent + ")");
+  node.style.setProperty("--accent-bg", "var(--" + accent + "-bg)");
+}
+
+function termLabel() {
+  return state.term === 1 ? "Total" : state.term + "-month total";
+}
+
+function renderRows() {
+  const host = $("rows");
+  host.textContent = "";
+
+  state.rows.forEach((row, i) => {
+    const meta = SKUS[row.sku];
+    const line = el("div", "row item");
+    accentVars(line, meta.accent);
+
+    const skucell = el("div", "skucell");
+    const g = el("div", "glyph");
+    g.innerHTML = GLYPHS[row.sku];
+    const sel = el("select", "skusel");
+    sel.setAttribute("aria-label", "SKU for line " + (i + 1));
+    sel.id = "sku-" + i;
+    SKU_KEYS.forEach(k => {
+      const o = el("option", null, SKUS[k].label + " — " + SKUS[k].sub);
+      o.value = k;
+      if (k === row.sku) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", () => {
+      row.sku = sel.value;
+      row.price = priceFor(row.sku);
+      row.hours = hoursFor(row.sku);
+      renderRows(); update();
+    });
+    skucell.append(g, sel);
+
+    const qtyWrap = el("div", "num");
+    qtyWrap.setAttribute("data-label", "Qty per month");
+    const qty = el("input");
+    qty.type = "number"; qty.min = "0"; qty.step = "1"; qty.value = String(row.qty);
+    qty.id = "qty-" + i;
+    qty.className = "editable";
+    qty.setAttribute("aria-label", "Quantity for " + meta.label);
+    qty.addEventListener("input", () => {
+      row.qty = Math.max(0, Math.floor(Number(qty.value) || 0));
+      update();
+    });
+    qtyWrap.appendChild(qty);
+
+    const priceWrap = el("div", "num");
+    priceWrap.setAttribute("data-label", "Unit price");
+    if (MODE.edit) {
+      const pi = el("input");
+      pi.type = "number"; pi.min = "0"; pi.step = "5"; pi.value = String(row.price);
+      pi.id = "price-" + i;
+      pi.className = "editable";
+      pi.setAttribute("aria-label", "Unit price for " + meta.label);
+      pi.addEventListener("input", () => {
+        const v = Math.max(0, Number(pi.value) || 0);
+        row.price = v;
+        priceOverride[row.sku] = v;
+        state.rows.forEach(r => { if (r.sku === row.sku) r.price = v; });
+        update(); renderPrices();
+      });
+      priceWrap.appendChild(pi);
+    } else {
+      priceWrap.appendChild(el("span", "p-val", money.format(row.price)));
+    }
+
+    const hoursWrap = el("div", "num c-hours");
+    hoursWrap.setAttribute("data-label", "Hours");
+    if (MODE.edit) {
+      const hi = el("input");
+      hi.type = "number"; hi.min = "0"; hi.step = "0.5"; hi.value = String(row.hours);
+      hi.id = "hours-" + i;
+      hi.className = "editable";
+      hi.setAttribute("aria-label", "Hours for " + meta.label);
+      hi.addEventListener("input", () => {
+        const v = Math.max(0, Number(hi.value) || 0);
+        row.hours = v;
+        hoursOverride[row.sku] = v;
+        state.rows.forEach(r => { if (r.sku === row.sku) r.hours = v; });
+        update();
+      });
+      hoursWrap.appendChild(hi);
+    } else if (MODE.internal) {
+      hoursWrap.appendChild(el("span", null, row.hours + "h"));
+    }
+
+    const mVal = el("div", "num strong");
+    mVal.setAttribute("data-label", "Monthly");
+    const cVal = el("div", "num strong");
+    cVal.setAttribute("data-label", termLabel());
+
+    const del = el("button", "del");
+    del.type = "button";
+    del.setAttribute("aria-label", "Remove " + meta.label + " line");
+    del.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14"/></svg>';
+    del.addEventListener("click", () => {
+      state.rows.splice(i, 1);
+      if (!state.rows.length) state.rows.push({ sku: "e2ecc", qty: 0, price: priceFor("e2ecc"), hours: hoursFor("e2ecc") });
+      renderRows(); update();
+    });
+
+    line.append(skucell, qtyWrap, priceWrap, hoursWrap, mVal, cVal, del);
+    line._m = mVal; line._c = cVal;
+    host.appendChild(line);
+  });
+}
+
+function renderPrices() {
+  document.querySelectorAll(".p-val").forEach((n, i) => {
+    if (state.rows[i]) n.textContent = money.format(state.rows[i].price);
+  });
+}
+
+function renderLadder(t) {
+  const host = $("ladder");
+  host.textContent = "";
+  host.appendChild(el("p", "eyebrow", "Volume tiers, measured on campaign builds"));
+  DISCOUNT_TIERS.forEach(x => {
+    const hit = t.builds >= x.min;
+    const isNext = t.next && t.next.min === x.min;
+    const row = el("div", "tier" + (hit ? " hit" : "") + (isNext ? " next" : ""));
+    row.appendChild(el("span", "t-pct", x.pct + "%"));
+    row.appendChild(el("span", "t-req", x.min + "+ campaign builds"));
+    row.appendChild(el("span", "pill" + (hit ? " on-green" : ""), hit ? "Unlocked" : "Locked"));
+    host.appendChild(row);
+  });
+}
+
+function renderCards() {
+  const host = $("cards");
+  CARDS.forEach(c => {
+    const card = el("div", "card");
+    accentVars(card, c.accent);
+
+    const inner = el("div", "card-inner");
+
+    const front = el("div", "face");
+    const top = el("div", "card-top");
+    const g = el("div", "glyph");
+    g.innerHTML = GLYPHS[c.key === "e2e" ? "e2ecc" : c.key === "touch" ? "touch" : "rev"];
+    top.append(g, el("h3", null, c.title));
+    front.appendChild(top);
+    front.appendChild(el("p", "price", c.price));
+    front.appendChild(el("p", "eyebrow", c.priceNote));
+    const ul = el("ul");
+    c.includes.forEach(x => ul.appendChild(el("li", null, x)));
+    front.appendChild(ul);
+
+    const back = el("div", "face back");
+    back.appendChild(el("h3", null, "How it is counted"));
+    const ul2 = el("ul");
+    c.rules.forEach(x => ul2.appendChild(el("li", null, x)));
+    back.appendChild(ul2);
+    if (c.key === "touch") back.appendChild(el("p", "warn", "Booking a touch as a Revision breaks contract usage tracking."));
+
+    const ctlFront = el("button", "flipctl");
+    ctlFront.type = "button";
+    ctlFront.setAttribute("aria-expanded", "false");
+    ctlFront.innerHTML = 'Counting rules <span aria-hidden="true">↻</span>';
+    const ctlBack = el("button", "flipctl");
+    ctlBack.type = "button";
+    ctlBack.setAttribute("aria-expanded", "true");
+    ctlBack.innerHTML = 'What’s included <span aria-hidden="true">↺</span>';
+
+    const flip = () => {
+      const now = !card.classList.contains("flipped");
+      card.classList.toggle("flipped", now);
+      ctlFront.setAttribute("aria-expanded", String(now));
+      ctlBack.setAttribute("aria-expanded", String(!now));
+      (now ? ctlBack : ctlFront).focus();
+    };
+    ctlFront.addEventListener("click", e => { e.stopPropagation(); flip(); });
+    ctlBack.addEventListener("click", e => { e.stopPropagation(); flip(); });
+    card.addEventListener("click", flip);
+
+    front.appendChild(ctlFront);
+    back.appendChild(ctlBack);
+    inner.append(front, back);
+    card.appendChild(inner);
+    host.appendChild(card);
+  });
+}
+
+/* ===================== live update ===================== */
+
+function update() {
+  const t = computeTotals(state.rows, state.term, MODE.discount);
+
+  document.querySelectorAll("#rows .item").forEach((line, i) => {
+    const r = state.rows[i];
+    if (!r) return;
+    line._m.textContent = money.format(r.qty * r.price);
+    line._c.textContent = money.format(r.qty * r.price * state.term);
+    line._c.setAttribute("data-label", termLabel());
+  });
+
+  $("head-term").textContent = termLabel();
+  $("l-contract").textContent = state.term === 1 ? "Estimate total" : termLabel();
+  $("term-hint").textContent = state.term === 1
+    ? "One-time estimate. Quantities are totals, not monthly."
+    : "Quantities are per month across a " + state.term + " month term.";
+  $("qty-hint").textContent = state.term === 1 ? "Quantity is a one-time total." : "Quantity is per month.";
+
+  const discounted = t.pct > 0;
+  $("v-monthly").textContent = money.format(t.netMonthly);
+  $("v-contract").textContent = money.format(t.netContract);
+  $("v-monthly-was").textContent = money.format(t.monthly);
+  $("v-contract-was").textContent = money.format(t.contract);
+  $("v-monthly-was").hidden = !discounted;
+  $("v-contract-was").hidden = !discounted;
+
+  const units = t.builds;
+  $("s-monthly").textContent = state.term === 1
+    ? "Across " + units + " campaign build" + (units === 1 ? "" : "s")
+    : units > 0 ? (units / state.term) + " builds a month" : "Nothing added yet";
+  $("s-contract").textContent = discounted
+    ? t.pct + "% volume discount applied"
+    : (state.term === 1 ? "One-time" : "Over " + state.term + " months");
+
+  // Effort and rate are written into the DOM only in internal view. CSS hiding
+  // alone would still leave them readable in the page source.
+  $("v-hours").textContent = MODE.internal ? Math.round(t.hours).toLocaleString("en-US") + "h" : "";
+  $("s-hours").textContent = MODE.internal
+    ? t.days.toFixed(1) + " working days at 8h, billed at $" + HOURLY_RATE + "/hr"
+    : "";
+
+  $("disc-panel").hidden = !MODE.discount;
+  if (MODE.discount) {
+    renderLadder(t);
+    $("d-save").textContent = money.format(t.saveContract);
+    $("d-line").textContent = discounted
+      ? "That is " + t.pct + "% off " + money.format(t.contract) + " at " + units + " campaign builds."
+      : "No volume discount yet at " + units + " campaign build" + (units === 1 ? "" : "s") + ".";
+    $("d-eff").textContent = units > 0
+      ? "Effective rate: " + money.format(t.effectivePerBuild) + " per campaign build."
+      : "";
+    const nudge = $("d-nudge");
+    nudge.hidden = false;
+    nudge.textContent = t.next
+      ? "Add " + (t.next.min - units) + " more campaign build" +
+        ((t.next.min - units) === 1 ? "" : "s") + " to unlock " + t.next.pct + "%."
+      : "Top volume tier reached.";
+  }
+
+  syncUrl();
+}
+
+/* ===================== modes ===================== */
+
+function applyMode() {
+  document.body.classList.toggle("internal", MODE.internal);
+  $("items-panel").classList.toggle("internal", MODE.internal);
+  $("totals").classList.toggle("internal", MODE.internal);
+  $("switches").hidden = !MODE.internal;
+  $("share-internal").hidden = !MODE.internal;
+  $("sw-edit").checked = MODE.edit;
+  $("sw-disc").checked = MODE.discount;
+
+  const bar = $("flagbar");
+  bar.textContent = "";
+  if (MODE.internal) {
+    const lock = el("button", "pill on-blue", "Internal view · lock");
+    lock.type = "button";
+    lock.title = "Hide hours and rate before you share your screen";
+    lock.addEventListener("click", () => setInternal(false));
+    bar.appendChild(lock);
+  }
+
+  const dl = $("accounts");
+  if (MODE.internal && !dl.childElementCount) {
+    ACCOUNTS.forEach(a => { const o = document.createElement("option"); o.value = a; dl.appendChild(o); });
+  }
+  $("account").setAttribute("list", MODE.internal ? "accounts" : "");
+  if (!MODE.internal) $("account").removeAttribute("list");
+  $("account").placeholder = MODE.internal ? "Type or pick an account name" : "Type an account name";
+}
+
+function setInternal(on) {
+  MODE.internal = on;
+  if (!on) MODE.edit = false;
+  if (on) lsSet(LS_UNLOCK, "1"); else lsDel(LS_UNLOCK);
+  applyMode();
+  renderRows();
+  update();
+  toast(on ? "Internal view unlocked" : "Internal view locked");
+}
+
+/* ===================== wiring ===================== */
+
+function toast(msg) {
+  const n = $("toast");
+  n.textContent = msg;
+  n.classList.add("show");
+  clearTimeout(n._t);
+  n._t = setTimeout(() => n.classList.remove("show"), 2600);
+}
+
+function copy(text, msg) {
+  const done = () => toast(msg);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
+  } else {
+    fallback(text, done);
+  }
+}
+function fallback(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.setAttribute("readonly", "");
+  ta.style.cssText = "position:fixed;top:-1000px;opacity:0";
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+  document.body.removeChild(ta);
+  if (ok) done(); else toast("Copy blocked. Copy the address bar instead.");
+}
+
+function init() {
+  // Per-viewer unlock, as an alternative to typing ?internal=1 every session.
+  // Option/Alt-click the eyebrow above the title, or press Alt+Shift+I. A plain
+  // click does nothing, so a client never stumbles into it.
+  $("unlock").addEventListener("click", e => {
+    if (e.altKey) setInternal(!MODE.internal);
+  });
+  document.addEventListener("keydown", e => {
+    if (e.altKey && e.shiftKey && (e.key === "I" || e.key === "i")) {
+      e.preventDefault();
+      setInternal(!MODE.internal);
+    }
+  });
+
+  // A stored unlock and ?internal=1 both open the internal view. Only the
+  // gesture persists, so a link someone sends you never sticks.
+  if (lsGet(LS_UNLOCK) === "1") MODE.internal = true;
+
+  readUrl();
+  if (!state.rows.length) {
+    state.rows = [{ sku: "e2ecc", qty: 4, price: priceFor("e2ecc"), hours: hoursFor("e2ecc") }];
+  }
+
+  $("account").value = state.account;
+  $("ns").value = state.ns;
+  $("term").value = String(state.term);
+
+  $("account").addEventListener("input", e => { state.account = e.target.value; update(); });
+  $("ns").addEventListener("input", e => { state.ns = e.target.value; update(); });
+  $("term").addEventListener("change", e => { state.term = Number(e.target.value) || 1; update(); });
+
+  $("sw-edit").addEventListener("change", e => { MODE.edit = e.target.checked; renderRows(); update(); });
+  $("sw-disc").addEventListener("change", e => { MODE.discount = e.target.checked; update(); });
+
+  $("add").addEventListener("click", () => {
+    state.rows.push({ sku: "e2ecc", qty: 1, price: priceFor("e2ecc"), hours: hoursFor("e2ecc") });
+    renderRows(); update();
+  });
+  $("clear").addEventListener("click", () => {
+    state.rows = [{ sku: "e2ecc", qty: 0, price: priceFor("e2ecc"), hours: hoursFor("e2ecc") }];
+    renderRows(); update();
+  });
+
+  document.querySelectorAll("[data-preset]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = PRESETS[Number(btn.dataset.preset)];
+      state.term = p.term;
+      $("term").value = String(p.term);
+      state.rows = p.rows.map(([sku, qty]) => ({ sku, qty, price: priceFor(sku), hours: hoursFor(sku) }));
+      renderRows(); update();
+      toast(p.name + " loaded");
+    });
+  });
+
+  $("share").addEventListener("click", () => {
+    state.date = new Date().toISOString().slice(0, 10);
+    $("stamp").textContent = stampText();
+    copy(shareUrl(false), MODE.internal ? "Client-safe link copied" : "Link copied");
+  });
+  $("share-internal").addEventListener("click", () => {
+    copy(shareUrl(true), "Internal link copied");
+  });
+
+  applyMode();
+  renderRows();
+  renderCards();
+  update();
+  $("stamp").textContent = stampText();
+}
+
+function stampText() {
+  return "Generated " + new Date(state.date + "T00:00:00")
+    .toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" });
+}
+
+init();
+</script>
+
+</body>
+</html>
