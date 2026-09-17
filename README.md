@@ -38,7 +38,7 @@ While internal view is on, a "lock" pill sits in the header. One click hides eve
 - **Share pricing** produces a client-safe URL: no `internal`, no `edit`, and no hours inside the code. The discount flag stays, because the discount is part of the client story.
 - **Copy internal link**, visible only in internal view, keeps every flag and the hours overrides, for handing to a CSM.
 
-Header controls stack top to bottom: internal view pill, copy internal link, edit rates, volume pricing, share pricing.
+Header controls stack top to bottom: internal view pill, edit rates, volume pricing, copy internal link, share pricing. The internal-only controls keep their space in client view, so **Share pricing** never moves between the two views.
 
 Unit price always rides in the code, so a link you sent last quarter keeps last quarter's prices even after the rates in this file change.
 
@@ -63,7 +63,7 @@ After editing, run the tests, then commit and push to `main`. GitHub Pages redep
 node test/e2e.js
 ```
 
-112 assertions in jsdom covering the money path, URL round trips, the client-safe boundary, the discount ladder boundaries, and the cards. The suite looks for jsdom in `node_modules/`, then falls back to the copy under `Campaign-Services-claude`.
+118 assertions in jsdom covering the money path, URL round trips, the client-safe boundary, the discount ladder boundaries, and the cards. The suite looks for jsdom in `node_modules/`, then falls back to the copy under `Campaign-Services-claude`.
 
 The page also carries a self-check callable from the browser console:
 

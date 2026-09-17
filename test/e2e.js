@@ -100,10 +100,10 @@ function run() {
 
   console.log("\n3. Client-safe default view");
   ok(!doc.body.classList.contains("internal"), "body has no .internal class");
-  ok($("switches").hidden, "mode switches hidden");
-  ok($("share-internal").hidden, "internal share button hidden");
+  ok($("switches").classList.contains("ghost"), "mode switches hidden");
+  ok($("share-internal").classList.contains("ghost"), "internal share button hidden");
+  ok($("flagbar").classList.contains("ghost"), "internal pill hidden");
   ok($("disc-panel").hidden, "discount panel hidden");
-  ok($("flagbar").children.length === 0, "no mode pills shown");
   ok($("accounts").children.length === 0, "account datalist empty");
   ok(!$("account").hasAttribute("list"), "account input not wired to a list");
   ok(!/\$65|hourly/i.test(visibleText(doc)), "no hourly rate on screen");
@@ -149,12 +149,13 @@ function run() {
   click(win, $("unlock"), { altKey: true });
   ok(doc.body.classList.contains("internal"), "alt-click unlocks");
   ok(A.store["cs-rate-internal"] === "1", "gesture persists to localStorage");
-  ok(!$("switches").hidden, "switches appear");
-  ok(!$("share-internal").hidden, "internal share button appears");
+  ok(!$("switches").classList.contains("ghost"), "switches appear");
+  ok(!$("share-internal").classList.contains("ghost"), "internal share button appears");
+  ok(!$("flagbar").classList.contains("ghost"), "internal pill appears");
   ok($("accounts").children.length === 60, "60 account names load", $("accounts").children.length);
   ok($("account").getAttribute("list") === "accounts", "datalist wired");
   ok(/\$65\/hr/.test($("s-hours").textContent), "hourly rate now shown", $("s-hours").textContent);
-  ok($("flagbar").children.length === 1, "lock pill shown");
+  ok($("flagbar").children.length === 1, "one lock pill, not duplicated");
 
   console.log("\n9. Capacity readout");
   click(win, doc.querySelectorAll("[data-preset]")[0]);
@@ -275,16 +276,21 @@ function run() {
   console.log("\n16. Lock again before screen sharing");
   click(win, $("flagbar").children[0]);
   ok(!doc.body.classList.contains("internal"), "lock pill re-hides internal view");
-  ok($("switches").hidden, "switches hidden again");
+  ok($("switches").classList.contains("ghost"), "switches hidden again");
   ok(!/\$65/.test(visibleText(doc)), "hourly rate gone from the rendered DOM");
   ok(!/internal=/.test(win.eval("buildQuery(true)")), "locking drops the flag from the URL");
 
   console.log("\n16b. Header layout");
-  const order = [...doc.querySelectorAll(".head-actions > *")].map(n => n.id || n.className).join("|");
-  ok(order === "flagbar|share-internal|switches|share",
-     "header order: pills, internal link, switches, share", order);
+  const order = [...doc.querySelectorAll(".head-actions > *")]
+    .map(n => (n.id || n.className).replace(" ghost", "")).join("|");
+  ok(order === "flagbar|switches|share-internal|share",
+     "header order: pill, edit, volume, internal link, share", order);
   ok(/Share pricing/.test($("share-label").textContent), "share button renamed", $("share-label").textContent);
   ok(!/🔗/.test($("share").textContent), "only one link glyph on the share button");
+  ok($("share-internal").querySelectorAll("svg").length === 1, "internal link button has a link glyph");
+  ok($("share").nextElementSibling === null, "share pricing is the last control in the stack");
+  // Nothing in the stack ever collapses, so the share button cannot move.
+  ok(!/\[hidden\]/.test(doc.querySelector(".head-actions").innerHTML), "no collapsing hidden attributes in the stack");
 
   console.log("\n17. Cards");
   {
@@ -293,7 +299,10 @@ function run() {
     ok(cards[0].querySelectorAll(".face").length === 2, "front and back faces");
     click(win, cards[0].querySelector(".flipctl"));
     ok(cards[0].classList.contains("flipped"), "card flips");
-    ok(cards[0].classList.contains("turning"), "flip adds the blur class");
+    ok(!/rotateY|backface-visibility|perspective:/.test(HTML), "no 3D rotation, so no mirrored text");
+    ok(!/filter:blur/.test(HTML), "the blur is gone");
+    ok(/margin-top:20px/.test(HTML.slice(HTML.indexOf(".cards{"), HTML.indexOf(".cards{") + 160)),
+       "cards have space above them");
     ok(cards[0].querySelectorAll(".face")[1].textContent.includes("Site campaign is 2 builds"), "rules on the back");
     ok(/Never book a subsequent touch as a Revision/.test(cards[1].querySelectorAll(".face")[1].textContent),
        "SKU misuse warning present");

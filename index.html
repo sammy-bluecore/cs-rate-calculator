@@ -141,11 +141,14 @@ p{margin:0}
 .head h1{margin:6px 0 8px}
 .head .lead{color:var(--ink-2);max-width:56ch;font-size:15px}
 .head-rule{height:3px;background:var(--grad-rule);margin:20px -24px 0;border-radius:3px 3px 0 0}
-.head-actions{display:flex;flex-direction:column;gap:10px;align-items:stretch;min-width:212px}
+.head-actions{display:flex;flex-direction:column;gap:10px;align-items:stretch;min-width:216px}
 .head-actions > *{width:100%}
 .head-actions .btn{justify-content:center}
 .flagbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
-.flagbar:empty{display:none}
+/* The internal-only controls keep their space in client view, so the Share
+   pricing button sits at exactly the same point in both views. visibility
+   also takes them out of the tab order. */
+.ghost{visibility:hidden;pointer-events:none}
 #unlock{cursor:default;user-select:none;-webkit-user-select:none;background:none;border:none;padding:0;text-align:left;font:inherit}
 #unlock.eyebrow{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 
@@ -198,7 +201,6 @@ button.pill{cursor:pointer}
 .pill.on-orange{background:var(--orange-bg);color:var(--orange);border-color:transparent}
 
 .switches{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.switches[hidden]{display:none}
 .switch{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer}
 .switch input{width:auto;min-width:0;padding:0;box-shadow:none;accent-color:var(--blue);inline-size:15px;block-size:15px}
 
@@ -333,9 +335,8 @@ button.pill{cursor:pointer}
 }
 
 /* ---------- cards ---------- */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch;margin-top:20px}
 .card{
-  perspective:1400px;
   transition:transform .2s ease;
   height:100%;
 }
@@ -343,26 +344,16 @@ button.pill{cursor:pointer}
 .card-inner{
   display:grid;
   height:100%;
-  transform-style:preserve-3d;
-  transition:transform .8s cubic-bezier(.36,.06,.16,1), box-shadow .2s ease;
   border-radius:var(--r-card);
   box-shadow:var(--sh-1);
+  transition:box-shadow .2s ease;
 }
 .card:hover .card-inner{box-shadow:var(--sh-2)}
-.card.flipped .card-inner{transform:rotateY(180deg)}
-/* Motion blur through the turn, so the halfway point reads as movement
-   rather than a hard edge. Cleared on animationend. */
-.card.turning .card-inner{animation:card-turn .8s cubic-bezier(.36,.06,.16,1)}
-@keyframes card-turn{
-  0%{filter:blur(0)}
-  45%{filter:blur(4px) saturate(.85)}
-  55%{filter:blur(4px) saturate(.85)}
-  100%{filter:blur(0)}
-}
+
+/* The two faces cross-fade in place. No 3D rotation, so no mirrored text and
+   nothing sliding sideways. */
 .face{
   grid-area:1/1;
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
   background:var(--grad-surface);
   border:1px solid var(--line);
   border-top:3px solid var(--accent,var(--blue));
@@ -370,8 +361,23 @@ button.pill{cursor:pointer}
   padding:18px 18px 16px;
   display:flex;flex-direction:column;gap:10px;
   height:100%;
+  opacity:1;
+  transform:none;
+  transition:opacity .34s ease, transform .34s ease, visibility 0s;
 }
-.face.back{transform:rotateY(180deg);background:var(--accent-bg,var(--blue-bg))}
+.face.back{
+  background:var(--accent-bg,var(--blue-bg));
+  opacity:0;visibility:hidden;transform:translateY(10px) scale(.99);
+  transition:opacity .34s ease, transform .34s ease, visibility 0s linear .34s;
+}
+.card.flipped .face:not(.back){
+  opacity:0;visibility:hidden;transform:translateY(-10px) scale(.99);
+  transition:opacity .34s ease, transform .34s ease, visibility 0s linear .34s;
+}
+.card.flipped .face.back{
+  opacity:1;visibility:visible;transform:none;
+  transition:opacity .34s ease, transform .34s ease, visibility 0s;
+}
 .card-top{display:flex;align-items:center;gap:10px}
 .card .price{
   font-family:var(--mono);font-size:19px;font-weight:600;color:var(--accent,var(--blue));
@@ -436,8 +442,11 @@ button.pill{cursor:pointer}
   .del{justify-self:end;grid-column:2}
   .head{padding:20px 18px 0}
   .head-rule{margin:18px -18px 0}
-  .head-actions{align-items:flex-start;width:100%}
-  .flagbar,.switches{justify-content:flex-start}
+  .head-actions{align-items:stretch;width:100%}
+  .flagbar{justify-content:flex-start}
+  .switches{align-items:flex-start}
+  /* On a phone there is no room to hold space open for controls nobody sees. */
+  .ghost{display:none}
 }
 
 /* ---------- internal-only visibility ----------
@@ -449,9 +458,7 @@ button.pill{cursor:pointer}
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important;animation:none !important}
   .card:hover{transform:none}
-  .card.flipped .card-inner{transform:none}
-  .card.turning .card-inner{animation:none}
-  .face.back{transform:none}
+  .face,.face.back,.card.flipped .face:not(.back),.card.flipped .face.back{transform:none}
 }
 </style>
 </head>
@@ -467,12 +474,15 @@ button.pill{cursor:pointer}
         <p class="lead">Build a campaign services estimate, then share the link. The whole estimate travels in the address, so whoever opens it sees exactly what you built and can adjust it themselves.</p>
       </div>
       <div class="head-actions">
-        <div class="flagbar" id="flagbar"></div>
-        <button class="btn btn-sm" id="share-internal" type="button" hidden>Copy internal link</button>
-        <div class="switches" id="switches" hidden>
+        <div class="flagbar ghost" id="flagbar"></div>
+        <div class="switches ghost" id="switches">
           <label class="switch"><input type="checkbox" id="sw-edit"> Edit rates</label>
           <label class="switch"><input type="checkbox" id="sw-disc"> Volume pricing</label>
         </div>
+        <button class="btn btn-sm ghost" id="share-internal" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          Copy internal link
+        </button>
         <button class="btn btn-primary" id="share" type="button">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
           <span id="share-label">Share pricing</span>
@@ -1118,14 +1128,10 @@ function renderCards() {
     const flip = () => {
       const now = !card.classList.contains("flipped");
       card.classList.toggle("flipped", now);
-      card.classList.remove("turning");
-      void card.offsetWidth;          // restart the blur even on a fast re-click
-      card.classList.add("turning");
       ctlFront.setAttribute("aria-expanded", String(now));
       ctlBack.setAttribute("aria-expanded", String(!now));
       (now ? ctlBack : ctlFront).focus();
     };
-    inner.addEventListener("animationend", () => card.classList.remove("turning"));
     ctlFront.addEventListener("click", e => { e.stopPropagation(); flip(); });
     ctlBack.addEventListener("click", e => { e.stopPropagation(); flip(); });
     card.addEventListener("click", flip);
@@ -1208,14 +1214,16 @@ function applyMode() {
   document.body.classList.toggle("internal", MODE.internal);
   $("items-panel").classList.toggle("internal", MODE.internal);
   $("totals").classList.toggle("internal", MODE.internal);
-  $("switches").hidden = !MODE.internal;
-  $("share-internal").hidden = !MODE.internal;
+  $("switches").classList.toggle("ghost", !MODE.internal);
+  $("share-internal").classList.toggle("ghost", !MODE.internal);
+  $("flagbar").classList.toggle("ghost", !MODE.internal);
   $("sw-edit").checked = MODE.edit;
   $("sw-disc").checked = MODE.discount;
 
+  // The pill is always in the DOM so the column height never changes. In client
+  // view the .ghost class hides it and takes it out of the tab order.
   const bar = $("flagbar");
-  bar.textContent = "";
-  if (MODE.internal) {
+  if (!bar.childElementCount) {
     const lock = el("button", "pill on-blue", "Internal view · lock");
     lock.type = "button";
     lock.title = "Hide hours and rate before you share your screen";
